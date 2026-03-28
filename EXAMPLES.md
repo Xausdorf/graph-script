@@ -11,7 +11,8 @@ function solve(n, m, edges) {
     deg[u]++;
     deg[v]++;
   }
-  return deg.slice(1)
+  return deg
+    .slice(1)
     .map((d, i) => `Вершина ${i + 1}: степень ${d}`)
     .join('\n');
 }
@@ -41,7 +42,8 @@ function solve(n, m, edges, directed) {
     }
   }
 
-  return dist.slice(1)
+  return dist
+    .slice(1)
     .map((d, i) => `1 → ${i + 1}: ${d === -1 ? '∞' : d}`)
     .join('\n');
 }
@@ -97,7 +99,8 @@ function solve(n, m, edges, directed) {
 
   const color = new Array(n + 1).fill(0); // 0=white 1=gray 2=black
   const parent = new Array(n + 1).fill(-1);
-  let cycleEnd = -1, cycleStart = -1;
+  let cycleEnd = -1,
+    cycleStart = -1;
 
   function dfs(u) {
     color[u] = 1;
@@ -239,8 +242,7 @@ function solve(n, m, edges) {
   }
 
   if (!bridges.length) return 'Мостов нет';
-  return `Мосты (${bridges.length}):\n` +
-    bridges.map(([u, v]) => `  ${u}—${v}`).join('\n');
+  return `Мосты (${bridges.length}):\n` + bridges.map(([u, v]) => `  ${u}—${v}`).join('\n');
 }
 ```
 
@@ -254,10 +256,10 @@ function solve(n, m, edges, directed) {
     if (!directed) mx[v - 1][u - 1] = 1;
   }
 
-  const hdr = '    ' + Array.from({ length: n }, (_, i) =>
-    String(i + 1).padStart(2)).join(' ');
-  const rows = mx.map((row, i) =>
-    String(i + 1).padStart(2) + ': ' + row.map(v => String(v).padStart(2)).join(' '));
+  const hdr = '    ' + Array.from({ length: n }, (_, i) => String(i + 1).padStart(2)).join(' ');
+  const rows = mx.map(
+    (row, i) => String(i + 1).padStart(2) + ': ' + row.map((v) => String(v).padStart(2)).join(' '),
+  );
 
   return hdr + '\n' + rows.join('\n');
 }

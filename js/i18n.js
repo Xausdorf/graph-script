@@ -18,6 +18,7 @@ const translations = {
     'status.running': 'Выполняется...',
     'error.prefix': 'Ошибка: ',
     'error.timeout': 'Превышен лимит времени (5 сек)',
+    'status.loadingPyodide': 'Загрузка Python...',
   },
   en: {
     'btn.vertex': 'Vertex',
@@ -38,6 +39,7 @@ const translations = {
     'status.running': 'Running...',
     'error.prefix': 'Error: ',
     'error.timeout': 'Time limit exceeded (5s)',
+    'status.loadingPyodide': 'Loading Python...',
   },
 };
 

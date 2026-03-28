@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Graph Script Editor</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,6 +23,8 @@
     <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
   </head>
   <body>
     <header class="toolbar">
@@ -43,7 +46,12 @@
         <span class="brand-name">GraphScript</span>
       </div>
       <div class="toolbar-actions">
-        <button id="btn-add-vertex" class="btn btn--accent" data-i18n-tooltip="tooltip.addVertex" data-tooltip="Добавить вершину">
+        <button
+          id="btn-add-vertex"
+          class="btn btn--accent"
+          data-i18n-tooltip="tooltip.addVertex"
+          data-tooltip="Добавить вершину"
+        >
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
             <circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
             <line x1="10" y1="6" x2="10" y2="14" stroke="currentColor" stroke-width="1.5" />
@@ -51,7 +59,12 @@
           </svg>
           <span data-i18n="btn.vertex">Вершина</span>
         </button>
-        <button id="btn-add-edge" class="btn btn--accent" data-i18n-tooltip="tooltip.addEdge" data-tooltip="Соединить две вершины">
+        <button
+          id="btn-add-edge"
+          class="btn btn--accent"
+          data-i18n-tooltip="tooltip.addEdge"
+          data-tooltip="Соединить две вершины"
+        >
           <svg
             viewBox="0 0 20 20"
             fill="none"
@@ -67,7 +80,12 @@
           <span data-i18n="btn.edge">Ребро</span>
         </button>
         <div class="toolbar-separator"></div>
-        <button id="btn-delete" class="btn btn--danger" data-i18n-tooltip="tooltip.delete" data-tooltip="Удалить элемент">
+        <button
+          id="btn-delete"
+          class="btn btn--danger"
+          data-i18n-tooltip="tooltip.delete"
+          data-tooltip="Удалить элемент"
+        >
           <svg
             viewBox="0 0 20 20"
             fill="none"
@@ -82,7 +100,12 @@
           <span data-i18n="btn.delete">Удалить</span>
         </button>
         <div class="toolbar-separator"></div>
-        <button id="btn-run" class="btn btn--run" data-i18n-tooltip="tooltip.run" data-tooltip="Запустить скрипт">
+        <button
+          id="btn-run"
+          class="btn btn--run"
+          data-i18n-tooltip="tooltip.run"
+          data-tooltip="Запустить скрипт"
+        >
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
             <polygon points="5,3 17,10 5,17" />
           </svg>
@@ -176,7 +199,7 @@
               <polyline points="7,4 3,10 7,16" />
               <polyline points="13,4 17,10 13,16" />
             </svg>
-            <span>script.js</span>
+            <select id="lang-select" class="lang-select"></select>
           </div>
           <div id="editor"></div>
         </div>

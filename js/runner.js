@@ -1,28 +1,19 @@
-import { t } from './i18n.js';
+import { getLanguage } from './languages/registry.js';
 
-function runScript(code, graphData) {
-  return new Promise((resolve) => {
-    const worker = new Worker('js/worker.js');
+let currentLangId = localStorage.getItem('graphscript-code-lang') || 'javascript';
 
-    const timeout = setTimeout(() => {
-      worker.terminate();
-      resolve({ success: false, error: t('error.timeout') });
-    }, 5000);
-
-    worker.onmessage = (e) => {
-      clearTimeout(timeout);
-      worker.terminate();
-      resolve(e.data);
-    };
-
-    worker.onerror = (e) => {
-      clearTimeout(timeout);
-      worker.terminate();
-      resolve({ success: false, error: e.message });
-    };
-
-    worker.postMessage({ code, graphData });
-  });
+function setLanguage(id) {
+  currentLangId = id;
+  localStorage.setItem('graphscript-code-lang', id);
 }
 
-export { runScript };
+function getLanguageId() {
+  return currentLangId;
+}
+
+function runScript(code, graphData) {
+  const lang = getLanguage(currentLangId);
+  return lang.run(code, graphData);
+}
+
+export { runScript, setLanguage, getLanguageId };

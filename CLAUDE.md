@@ -1,6 +1,6 @@
 # Graph Script Editor
 
-Interactive web app for building graphs (vertices + edges) and running JavaScript scripts on them.
+Interactive web app for building graphs (vertices + edges) and running scripts on them (JavaScript, C++, Python).
 
 ## Quick start
 
@@ -22,10 +22,16 @@ js/
   editor.js         — CodeMirror 5: setup, get/set code
   ui.js             — button handlers, interaction modes (move/add-edge/delete)
   i18n.js           — localization (ru/en), language toggle, translations
-  runner.js         — launches Web Worker, 5s timeout
-  worker.js         — sandbox: executes user code via new Function()
+  runner.js         — dispatches run to selected language runner
+  worker.js         — JS sandbox: executes user code via new Function()
   physics.js        — spring physics for edge wobble on drag
   resizer.js        — draggable panel dividers (vertical + horizontal)
+  languages/
+    registry.js     — language registry (register/list/get)
+    js-runner.js    — JavaScript runner (Web Worker, 5s timeout)
+    cpp-runner.js   — C++ runner (WASM via Emscripten)
+    py-runner.js    — Python runner (Pyodide)
+    py-worker.js    — Python Web Worker
 ```
 
 ## Script contract

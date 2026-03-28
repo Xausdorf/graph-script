@@ -18,6 +18,12 @@ export default [
         CodeMirror: 'readonly',
         cytoscape: 'readonly',
         requestAnimationFrame: 'readonly',
+        localStorage: 'readonly',
+        importScripts: 'readonly',
+        JSCPP: 'readonly',
+        loadPyodide: 'readonly',
+        fetch: 'readonly',
+        AbortController: 'readonly',
       },
     },
     rules: {

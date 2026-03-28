@@ -726,6 +726,37 @@ body.resizing-h {
   border-bottom: 1px solid var(--border-dim);
 }
 
+/* Language selector */
+.lang-select {
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.lang-select:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.lang-select:focus {
+  border-color: var(--cyan);
+}
+
+.lang-select option {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
 /* === Editor === */
 #editor {
   flex: 1;

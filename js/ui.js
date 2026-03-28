@@ -8,8 +8,9 @@ import {
   setDirected,
   getDirected,
 } from './graph.js';
-import { getCode } from './editor.js';
-import { runScript } from './runner.js';
+import { getCode, setCode, setEditorMode } from './editor.js';
+import { runScript, setLanguage, getLanguageId } from './runner.js';
+import { listLanguages, getLanguage } from './languages/registry.js';
 import { t, getLang, setLang } from './i18n.js';
 
 function initUI(cy, editorView) {
@@ -29,6 +30,33 @@ function initUI(cy, editorView) {
   const btnDirected = document.getElementById('btn-directed');
   const btnLang = document.getElementById('btn-lang');
   const langLabel = document.getElementById('lang-label');
+  const langSelect = document.getElementById('lang-select');
+
+  /* === Language selector === */
+  const langs = listLanguages();
+  const currentLangId = getLanguageId();
+
+  langs.forEach((lang) => {
+    const opt = document.createElement('option');
+    opt.value = lang.id;
+    opt.textContent = lang.fileLabel;
+    if (lang.id === currentLangId) opt.selected = true;
+    langSelect.appendChild(opt);
+  });
+
+  langSelect.addEventListener('change', () => {
+    const newLangId = langSelect.value;
+    const oldLang = getLanguage(getLanguageId());
+    const newLang = getLanguage(newLangId);
+
+    setLanguage(newLangId);
+    setEditorMode(editorView, newLang.codemirrorMode);
+
+    // Swap template if editor still has the old default code
+    if (getCode(editorView).trim() === oldLang.defaultCode.trim()) {
+      setCode(editorView, newLang.defaultCode);
+    }
+  });
 
   /* Grid toggle — on by default */
   btnGrid.classList.add('active');
