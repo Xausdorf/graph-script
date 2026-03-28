@@ -1,0 +1,826 @@
+/* === CSS Variables === */
+:root {
+  --bg-deep: #06080f;
+  --bg-base: #0b0e18;
+  --bg-surface: #0f1320;
+  --bg-raised: #141928;
+  --bg-overlay: #1a2035;
+
+  --border-dim: rgba(56, 189, 248, 0.08);
+  --border-subtle: rgba(56, 189, 248, 0.15);
+  --border-accent: rgba(56, 189, 248, 0.3);
+
+  --cyan: #38bdf8;
+  --cyan-dim: rgba(56, 189, 248, 0.15);
+  --cyan-glow: rgba(56, 189, 248, 0.4);
+  --magenta: #f472b6;
+  --magenta-dim: rgba(244, 114, 182, 0.15);
+  --magenta-glow: rgba(244, 114, 182, 0.4);
+  --green: #34d399;
+  --green-dim: rgba(52, 211, 153, 0.12);
+  --amber: #fbbf24;
+  --red: #fb7185;
+  --red-dim: rgba(251, 113, 133, 0.12);
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+
+  --font-ui: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-med: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Reset === */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === Body === */
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Toolbar === */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  height: 56px;
+  min-height: 56px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-dim);
+  position: relative;
+  z-index: 10;
+}
+
+.toolbar::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--cyan-dim) 20%,
+    var(--cyan) 50%,
+    var(--cyan-dim) 80%,
+    transparent 100%
+  );
+  opacity: 0.4;
+}
+
+/* Brand */
+.toolbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 6px var(--cyan-glow));
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Toolbar actions */
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background: var(--border-subtle);
+  margin: 0 4px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-overlay);
+  border-color: var(--border-accent);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn svg {
+  flex-shrink: 0;
+}
+
+/* Accent button */
+.btn--accent:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan-dim), inset 0 0 12px var(--cyan-dim);
+  color: var(--cyan);
+}
+
+.btn--accent.active {
+  background: var(--cyan-dim);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 0 16px var(--cyan-dim), inset 0 0 16px var(--cyan-dim);
+}
+
+/* Danger button */
+.btn--danger:hover {
+  border-color: var(--magenta);
+  box-shadow: 0 0 12px var(--magenta-dim), inset 0 0 12px var(--magenta-dim);
+  color: var(--magenta);
+}
+
+.btn--danger.active {
+  background: var(--magenta-dim);
+  border-color: var(--magenta);
+  color: var(--magenta);
+  box-shadow: 0 0 16px var(--magenta-dim), inset 0 0 16px var(--magenta-dim);
+  animation: pulse-danger 2s ease-in-out infinite;
+}
+
+@keyframes pulse-danger {
+  0%, 100% { box-shadow: 0 0 16px var(--magenta-dim), inset 0 0 16px var(--magenta-dim); }
+  50% { box-shadow: 0 0 24px var(--magenta-glow), inset 0 0 20px var(--magenta-dim); }
+}
+
+/* Run button */
+.btn--run {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.12), rgba(52, 211, 153, 0.06));
+  border-color: rgba(52, 211, 153, 0.25);
+  color: var(--green);
+}
+
+.btn--run:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.2), inset 0 0 16px rgba(52, 211, 153, 0.1);
+  color: var(--green);
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(52, 211, 153, 0.08));
+}
+
+.btn--run:active {
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.3), inset 0 0 24px rgba(52, 211, 153, 0.15);
+}
+
+.btn--run svg {
+  filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.5));
+  transition: transform 0.2s ease;
+}
+
+/* Executing state — pulsing glow */
+.btn--run.executing {
+  animation: run-pulse 1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.btn--run.executing svg {
+  animation: run-spin 0.8s linear infinite;
+}
+
+@keyframes run-pulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.15), inset 0 0 12px rgba(52, 211, 153, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(52, 211, 153, 0.35), inset 0 0 20px rgba(52, 211, 153, 0.15);
+  }
+}
+
+@keyframes run-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Flash on success / error */
+.btn--run.flash-success {
+  animation: flash-green 0.6s ease-out;
+}
+
+.btn--run.flash-error {
+  animation: flash-red 0.6s ease-out;
+}
+
+@keyframes flash-green {
+  0% { box-shadow: 0 0 40px rgba(52, 211, 153, 0.6), inset 0 0 30px rgba(52, 211, 153, 0.25); }
+  100% { box-shadow: none; }
+}
+
+@keyframes flash-red {
+  0% { box-shadow: 0 0 40px rgba(251, 113, 133, 0.6), inset 0 0 30px rgba(251, 113, 133, 0.25); }
+  100% { box-shadow: none; }
+}
+
+/* Status indicator */
+.toolbar-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-dim);
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan-glow);
+  animation: pulse-dot 2.5s ease-in-out infinite;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.status-dot--edge {
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+}
+
+.status-dot--delete {
+  background: var(--magenta);
+  box-shadow: 0 0 8px var(--magenta-glow);
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--cyan-glow); }
+  50% { opacity: 0.5; box-shadow: 0 0 4px var(--cyan-dim); }
+}
+
+.status-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+/* === Main content === */
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* === Graph panel === */
+.graph-panel {
+  flex: 0 0 55%;
+  position: relative;
+  background: var(--bg-deep);
+  overflow: hidden;
+}
+
+/* Ambient glow — drifts slowly */
+.graph-panel .graph-ambient {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambient-drift 12s ease-in-out infinite alternate;
+}
+
+/* Line grid background */
+.graph-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.1;
+  transition: opacity 0.4s ease;
+  background-image:
+    linear-gradient(to right, var(--text-muted) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--text-muted) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.graph-grid.hidden {
+  opacity: 0;
+}
+
+/* Subtle vignette */
+.graph-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--bg-deep) 100%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+@keyframes ambient-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate(30px, -20px) scale(1.1); opacity: 0.7; }
+  100% { transform: translate(-20px, 15px) scale(0.95); opacity: 0.5; }
+}
+
+#cy {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Corner brackets */
+.graph-overlay-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.graph-overlay-corner--tl {
+  top: 12px;
+  left: 12px;
+  border-top: 2px solid var(--cyan);
+  border-left: 2px solid var(--cyan);
+}
+
+.graph-overlay-corner--tr {
+  top: 12px;
+  right: 12px;
+  border-top: 2px solid var(--cyan);
+  border-right: 2px solid var(--cyan);
+}
+
+.graph-overlay-corner--bl {
+  bottom: 12px;
+  left: 12px;
+  border-bottom: 2px solid var(--cyan);
+  border-left: 2px solid var(--cyan);
+}
+
+.graph-overlay-corner--br {
+  bottom: 12px;
+  right: 12px;
+  border-bottom: 2px solid var(--cyan);
+  border-right: 2px solid var(--cyan);
+}
+
+/* Grid toggle button */
+.grid-toggle {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.grid-toggle:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-accent);
+  background: var(--bg-raised);
+}
+
+.grid-toggle.active {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan-dim);
+  background: var(--bg-raised);
+}
+
+/* === Dividers (shared) === */
+.divider {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  transition: opacity var(--transition-med);
+  opacity: 0;
+}
+
+.divider:hover::before,
+.divider.dragging::before {
+  opacity: 1;
+}
+
+/* Vertical divider (left ↔ right) */
+.divider--v {
+  width: 7px;
+  cursor: col-resize;
+  background: var(--border-dim);
+}
+
+.divider--v::before {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--cyan) 30%,
+    var(--cyan) 70%,
+    transparent 100%
+  );
+  opacity: 0;
+}
+
+.divider--v::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3px;
+  height: 32px;
+  border-radius: 2px;
+  background: var(--text-muted);
+  opacity: 0.4;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.divider--v:hover::after,
+.divider--v.dragging::after {
+  background: var(--cyan);
+  opacity: 0.9;
+}
+
+/* Horizontal divider (editor ↔ output) */
+.divider--h {
+  height: 7px;
+  cursor: row-resize;
+  background: var(--border-dim);
+}
+
+.divider--h::before {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--cyan) 30%,
+    var(--cyan) 70%,
+    transparent 100%
+  );
+  opacity: 0;
+}
+
+.divider--h::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 3px;
+  width: 32px;
+  border-radius: 2px;
+  background: var(--text-muted);
+  opacity: 0.4;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.divider--h:hover::after,
+.divider--h.dragging::after {
+  background: var(--cyan);
+  opacity: 0.9;
+}
+
+/* Prevent selection while dragging */
+body.resizing {
+  user-select: none;
+  cursor: col-resize;
+}
+
+body.resizing-h {
+  user-select: none;
+  cursor: row-resize;
+}
+
+/* === Right panel === */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--bg-base);
+}
+
+.editor-section {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
+  overflow: hidden;
+}
+
+.output-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 60px;
+  overflow: hidden;
+}
+
+/* Section headers */
+.editor-header,
+.output-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-dim);
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+.editor-header svg,
+.output-header svg {
+  opacity: 0.6;
+}
+
+.output-header {
+  border-bottom: 1px solid var(--border-dim);
+}
+
+/* === Editor === */
+#editor {
+  flex: 1;
+  overflow: auto;
+}
+
+/* CodeMirror deep overrides */
+#editor .CodeMirror {
+  height: 100%;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.65;
+  background: var(--bg-base);
+  padding-top: 4px;
+}
+
+#editor .CodeMirror-gutters {
+  background: var(--bg-base);
+  border-right: 1px solid var(--border-dim);
+  padding-right: 4px;
+}
+
+#editor .CodeMirror-linenumber {
+  color: var(--text-muted);
+  font-size: 12px;
+  padding: 0 8px;
+}
+
+#editor .CodeMirror-cursor {
+  border-left-color: var(--cyan);
+  border-left-width: 2px;
+}
+
+#editor .CodeMirror-selected {
+  background: rgba(56, 189, 248, 0.12) !important;
+}
+
+#editor .CodeMirror-activeline-background {
+  background: rgba(56, 189, 248, 0.04);
+}
+
+#editor .CodeMirror-matchingbracket {
+  color: var(--cyan) !important;
+  border-bottom: 1px solid var(--cyan);
+  background: var(--cyan-dim);
+}
+
+/* Scrollbar styling */
+#editor .CodeMirror-vscrollbar::-webkit-scrollbar,
+#editor .CodeMirror-hscrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#editor .CodeMirror-vscrollbar::-webkit-scrollbar-track,
+#editor .CodeMirror-hscrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#editor .CodeMirror-vscrollbar::-webkit-scrollbar-thumb,
+#editor .CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+#editor .CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover,
+#editor .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--border-accent);
+}
+
+/* === Output === */
+#output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  background: var(--bg-deep);
+  color: var(--green);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+#output::-webkit-scrollbar {
+  width: 8px;
+}
+
+#output::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#output::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
+}
+
+/* Output states */
+#output.output--loading {
+  color: var(--text-muted);
+  animation: output-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes output-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+#output.output--error {
+  color: var(--red);
+  animation: output-appear 0.3s ease-out;
+}
+
+#output.output--success {
+  color: var(--green);
+  animation: output-appear 0.3s ease-out;
+}
+
+@keyframes output-appear {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Animations === */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toolbar {
+  animation: fade-in-up 0.4s ease-out;
+}
+
+.graph-panel {
+  animation: fade-in-up 0.5s ease-out 0.1s both;
+}
+
+.right-panel {
+  animation: fade-in-up 0.5s ease-out 0.2s both;
+}
+
+/* === Tooltips === */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+  z-index: 100;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* === Global scrollbar === */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.25);
+}
+
+/* === Selection === */
+::selection {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--text-primary);
+}

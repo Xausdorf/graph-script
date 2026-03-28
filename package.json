@@ -1,0 +1,28 @@
+{
+  "name": "graph-script",
+  "version": "1.0.0",
+  "description": "Interactive graph editor with JavaScript script runner",
+  "scripts": {
+    "lint": "eslint js/",
+    "lint:fix": "eslint js/ --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xausdorf/graph-script.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Xausdorf/graph-script/issues"
+  },
+  "homepage": "https://github.com/Xausdorf/graph-script#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.1.0",
+    "prettier": "^3.8.1"
+  }
+}
