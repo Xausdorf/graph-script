@@ -1,10 +1,12 @@
+import { t } from './i18n.js';
+
 function runScript(code, graphData) {
   return new Promise((resolve) => {
     const worker = new Worker('js/worker.js');
 
     const timeout = setTimeout(() => {
       worker.terminate();
-      resolve({ success: false, error: 'Превышен лимит времени (5 сек)' });
+      resolve({ success: false, error: t('error.timeout') });
     }, 5000);
 
     worker.onmessage = (e) => {

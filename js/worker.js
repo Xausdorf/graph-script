@@ -1,10 +1,10 @@
 self.onmessage = function (e) {
   const { code, graphData } = e.data;
-  const { n, m, edges } = graphData;
+  const { n, m, edges, directed } = graphData;
   try {
-    const wrappedCode = code + '\nreturn solve(n, m, edges);';
-    const fn = new Function('n', 'm', 'edges', wrappedCode);
-    const result = fn(n, m, edges);
+    const wrappedCode = code + '\nreturn solve(n, m, edges, directed);';
+    const fn = new Function('n', 'm', 'edges', 'directed', wrappedCode);
+    const result = fn(n, m, edges, directed);
 
     let output;
     if (result === undefined || result === null) {

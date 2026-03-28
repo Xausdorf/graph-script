@@ -5,9 +5,12 @@ import {
   animateRemoveEdge,
   getGraphData,
   renumberVertices,
+  setDirected,
+  getDirected,
 } from './graph.js';
 import { getCode } from './editor.js';
 import { runScript } from './runner.js';
+import { t, getLang, setLang } from './i18n.js';
 
 function initUI(cy, editorView) {
   const btnAddVertex = document.getElementById('btn-add-vertex');
@@ -23,6 +26,10 @@ function initUI(cy, editorView) {
   let currentMode = 'default';
   let edgeSource = null;
 
+  const btnDirected = document.getElementById('btn-directed');
+  const btnLang = document.getElementById('btn-lang');
+  const langLabel = document.getElementById('lang-label');
+
   /* Grid toggle — on by default */
   btnGrid.classList.add('active');
   btnGrid.addEventListener('click', () => {
@@ -30,8 +37,30 @@ function initUI(cy, editorView) {
     btnGrid.classList.toggle('active');
   });
 
-  function setMode(mode) {
-    if (currentMode === mode) {
+  /* Directed toggle — on by default */
+  btnDirected.classList.add('active');
+  btnDirected.addEventListener('click', () => {
+    const nowDirected = !getDirected();
+    setDirected(cy, nowDirected);
+    btnDirected.classList.toggle('active', nowDirected);
+  });
+
+  /* Language toggle */
+  langLabel.textContent = getLang() === 'ru' ? 'EN' : 'RU';
+  btnLang.addEventListener('click', () => {
+    const newLang = getLang() === 'ru' ? 'en' : 'ru';
+    setLang(newLang);
+    langLabel.textContent = newLang === 'ru' ? 'EN' : 'RU';
+    /* Re-apply mode label since it's set dynamically */
+    setMode(currentMode, true);
+    /* Update output placeholder if no result is showing */
+    if (!outputEl.className) {
+      outputEl.textContent = t('output.placeholder');
+    }
+  });
+
+  function setMode(mode, force) {
+    if (!force && currentMode === mode) {
       mode = 'default';
     }
     currentMode = mode;
@@ -48,11 +77,11 @@ function initUI(cy, editorView) {
 
     if (modeLabel) {
       const labels = {
-        default: 'Перемещение',
-        'add-edge': 'Добавление ребра',
-        delete: 'Удаление',
+        default: t('mode.default'),
+        'add-edge': t('mode.addEdge'),
+        delete: t('mode.delete'),
       };
-      modeLabel.textContent = labels[mode] || 'Перемещение';
+      modeLabel.textContent = labels[mode] || t('mode.default');
     }
 
     if (mode !== 'add-edge' && edgeSource) {
@@ -77,7 +106,7 @@ function initUI(cy, editorView) {
     const code = getCode(editorView);
     const graphData = getGraphData(cy);
 
-    outputEl.textContent = 'Выполняется...';
+    outputEl.textContent = t('status.running');
     outputEl.className = 'output--loading';
     btnRun.classList.add('executing');
 
@@ -90,7 +119,7 @@ function initUI(cy, editorView) {
       outputEl.className = 'output--success';
       btnRun.classList.add('flash-success');
     } else {
-      outputEl.textContent = 'Ошибка: ' + result.error;
+      outputEl.textContent = t('error.prefix') + result.error;
       outputEl.className = 'output--error';
       btnRun.classList.add('flash-error');
     }

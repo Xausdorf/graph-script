@@ -1,4 +1,5 @@
 let nextVertexId = 1;
+let isDirected = true;
 
 function initGraph(containerId) {
   const cy = cytoscape({
@@ -270,22 +271,32 @@ function animateRemoveEdge(edge, onDone) {
   });
 }
 
+function setDirected(cy, directed) {
+  isDirected = directed;
+  cy.style()
+    .selector('edge')
+    .style({
+      'target-arrow-shape': directed ? 'triangle' : 'none',
+      'target-arrow-color': directed ? '#4a6fa5' : 'none',
+    })
+    .update();
+}
+
+function getDirected() {
+  return isDirected;
+}
+
 function getGraphData(cy) {
   const nodes = cy.nodes().sort((a, b) => parseInt(a.id()) - parseInt(b.id()));
   const edges = cy.edges();
   const n = nodes.length;
   const m = edges.length;
-  const edgeList = edges.map((e) => [
-    parseInt(e.source().id()),
-    parseInt(e.target().id()),
-  ]);
-  return { n, m, edges: edgeList };
+  const edgeList = edges.map((e) => [parseInt(e.source().id()), parseInt(e.target().id())]);
+  return { n, m, edges: edgeList, directed: isDirected };
 }
 
 function renumberVertices(cy) {
-  const nodes = cy
-    .nodes()
-    .sort((a, b) => parseInt(a.id()) - parseInt(b.id()));
+  const nodes = cy.nodes().sort((a, b) => parseInt(a.id()) - parseInt(b.id()));
   const edges = cy.edges();
 
   const oldToNew = {};
@@ -342,4 +353,6 @@ export {
   getGraphData,
   renumberVertices,
   resetGraph,
+  setDirected,
+  getDirected,
 };
