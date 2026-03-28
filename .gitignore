@@ -20,3 +20,7 @@ Desktop.ini
 
 # Logs
 *.log
+
+# Playwright
+test-results/
+playwright-report/

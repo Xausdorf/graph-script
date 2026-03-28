@@ -6,7 +6,9 @@
     "lint": "eslint js/",
     "lint:fix": "eslint js/ --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   "homepage": "https://github.com/Xausdorf/graph-script#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.58.2",
     "eslint": "^10.1.0",
     "prettier": "^3.8.1"
   }
