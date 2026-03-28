@@ -1,5 +1,4 @@
 import { register } from './registry.js';
-import { t } from '../i18n.js';
 
 const DEFAULT_CODE = `\
 # Функция solve принимает граф и возвращает результат.
@@ -31,13 +30,13 @@ register({
   run(code, graphData) {
     return new Promise((resolve) => {
       if (!worker) {
-        worker = new Worker('js/languages/py-worker.js');
+        worker = new Worker(new URL('./py-worker.js', import.meta.url));
       }
 
       const timer = setTimeout(() => {
         worker.terminate();
         worker = null;
-        resolve({ success: false, error: t('error.timeout') });
+        resolve({ success: false, error: 'Time limit exceeded (30s)' });
       }, 30000);
 
       function onMessage(e) {

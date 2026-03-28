@@ -1,10 +1,19 @@
 import { getLanguage } from './languages/registry.js';
 
-let currentLangId = localStorage.getItem('graphscript-code-lang') || 'javascript';
+let currentLangId;
+try {
+  currentLangId = localStorage.getItem('graphscript-code-lang') || 'javascript';
+} catch {
+  currentLangId = 'javascript';
+}
 
 function setLanguage(id) {
   currentLangId = id;
-  localStorage.setItem('graphscript-code-lang', id);
+  try {
+    localStorage.setItem('graphscript-code-lang', id);
+  } catch {
+    // localStorage unavailable (private browsing)
+  }
 }
 
 function getLanguageId() {
@@ -12,8 +21,12 @@ function getLanguageId() {
 }
 
 function runScript(code, graphData) {
-  const lang = getLanguage(currentLangId);
-  return lang.run(code, graphData);
+  try {
+    const lang = getLanguage(currentLangId);
+    return lang.run(code, graphData);
+  } catch {
+    return Promise.resolve({ success: false, error: `Unknown language: ${currentLangId}` });
+  }
 }
 
 export { runScript, setLanguage, getLanguageId };

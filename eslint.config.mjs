@@ -20,10 +20,10 @@ export default [
         requestAnimationFrame: 'readonly',
         localStorage: 'readonly',
         importScripts: 'readonly',
-        JSCPP: 'readonly',
         loadPyodide: 'readonly',
         fetch: 'readonly',
         AbortController: 'readonly',
+        URL: 'readonly',
       },
     },
     rules: {

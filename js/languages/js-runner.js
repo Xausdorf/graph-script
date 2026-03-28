@@ -32,7 +32,7 @@ register({
   fileLabel: 'script.js',
   run(code, graphData) {
     return new Promise((resolve) => {
-      const worker = new Worker('js/worker.js');
+      const worker = new Worker(new URL('../worker.js', import.meta.url));
 
       const timer = setTimeout(() => {
         worker.terminate();

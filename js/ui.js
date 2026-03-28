@@ -13,7 +13,7 @@ import { runScript, setLanguage, getLanguageId } from './runner.js';
 import { listLanguages, getLanguage } from './languages/registry.js';
 import { t, getLang, setLang } from './i18n.js';
 
-function initUI(cy, editorView) {
+function initUI(cy, editorView, physics) {
   const btnAddVertex = document.getElementById('btn-add-vertex');
   const btnAddEdge = document.getElementById('btn-add-edge');
   const btnDelete = document.getElementById('btn-delete');
@@ -168,12 +168,13 @@ function initUI(cy, editorView) {
         if (node.id() !== edgeSource.id()) {
           const srcId = edgeSource.id();
           const tgtId = node.id();
+          const directed = getDirected();
           const duplicate = cy
             .edges()
             .some(
               (e) =>
                 (e.source().id() === srcId && e.target().id() === tgtId) ||
-                (e.source().id() === tgtId && e.target().id() === srcId),
+                (!directed && e.source().id() === tgtId && e.target().id() === srcId),
             );
           if (!duplicate) {
             addEdge(cy, srcId, tgtId);
@@ -185,6 +186,7 @@ function initUI(cy, editorView) {
     } else if (currentMode === 'delete') {
       animateRemoveNode(cy, node, () => {
         renumberVertices(cy);
+        physics.resetSprings();
       });
     }
   });

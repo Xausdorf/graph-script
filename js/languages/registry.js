@@ -5,7 +5,11 @@ function register(lang) {
 }
 
 function getLanguage(id) {
-  return languages[id];
+  const lang = languages[id];
+  if (!lang) {
+    throw new Error(`Unknown language: "${id}". Available: ${Object.keys(languages).join(', ')}`);
+  }
+  return lang;
 }
 
 function listLanguages() {

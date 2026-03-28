@@ -43,7 +43,12 @@ const translations = {
   },
 };
 
-let currentLang = localStorage.getItem('graphscript-lang') || 'ru';
+let currentLang = 'ru';
+try {
+  currentLang = localStorage.getItem('graphscript-lang') || 'ru';
+} catch {
+  // localStorage may be unavailable (e.g. private browsing, disabled)
+}
 
 function t(key) {
   return translations[currentLang]?.[key] || translations['ru'][key] || key;
@@ -55,7 +60,11 @@ function getLang() {
 
 function setLang(lang) {
   currentLang = lang;
-  localStorage.setItem('graphscript-lang', lang);
+  try {
+    localStorage.setItem('graphscript-lang', lang);
+  } catch {
+    // localStorage may be unavailable (e.g. private browsing, disabled)
+  }
   document.documentElement.lang = lang;
   applyTranslations();
 }

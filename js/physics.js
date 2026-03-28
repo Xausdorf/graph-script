@@ -110,4 +110,10 @@ export function initPhysics(cy) {
     st.v = (Math.random() - 0.5) * 2;
     start();
   });
+
+  return {
+    resetSprings() {
+      springs.clear();
+    },
+  };
 }

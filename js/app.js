@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lang = getLanguage(getLanguageId());
   const cy = initGraph('cy');
   const editorView = initEditor('editor', lang.defaultCode, lang.codemirrorMode);
-  initUI(cy, editorView);
-  initPhysics(cy);
+  const physics = initPhysics(cy);
+  initUI(cy, editorView, physics);
   initResizers(cy, editorView);
 });

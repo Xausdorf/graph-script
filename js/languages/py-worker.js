@@ -18,16 +18,19 @@ self.onmessage = async function (e) {
   try {
     const py = await ensurePyodide();
 
-    // Convert edges to Python list of tuples
-    const edgesPy = JSON.stringify(edges);
+    // Pass data through Pyodide globals instead of string interpolation
+    py.globals.set('_n', n);
+    py.globals.set('_m', m);
+    py.globals.set('_edges_json', JSON.stringify(edges));
+    py.globals.set('_directed', directed);
 
     const fullCode = `
 import json as _json
 
-n = ${n}
-m = ${m}
-edges = [tuple(e) for e in _json.loads('${edgesPy}')]
-directed = ${directed ? 'True' : 'False'}
+n = int(_n)
+m = int(_m)
+edges = [tuple(e) for e in _json.loads(_edges_json)]
+directed = bool(_directed)
 
 ${code}
 
@@ -47,6 +50,12 @@ _result = solve(n, m, edges, directed)
     if (result && typeof result.destroy === 'function') {
       result.destroy();
     }
+
+    // Clean up injected globals
+    py.globals.delete('_n');
+    py.globals.delete('_m');
+    py.globals.delete('_edges_json');
+    py.globals.delete('_directed');
 
     self.postMessage({ success: true, result: output });
   } catch (err) {

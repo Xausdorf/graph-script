@@ -1,5 +1,4 @@
 import { register } from './registry.js';
-import { t } from '../i18n.js';
 
 const DEFAULT_CODE = `\
 #include <iostream>
@@ -31,8 +30,23 @@ register({
   codemirrorMode: 'text/x-c++src',
   defaultCode: DEFAULT_CODE,
   fileLabel: 'script.cpp',
+  externalService: 'wandbox.org',
   async run(code, graphData) {
     const { n, m, edges, directed } = graphData;
+
+    if (!Number.isInteger(n) || !Number.isInteger(m)) {
+      return { success: false, error: 'Invalid graph data' };
+    }
+    for (const pair of edges) {
+      if (
+        !Array.isArray(pair) ||
+        pair.length !== 2 ||
+        !Number.isInteger(pair[0]) ||
+        !Number.isInteger(pair[1])
+      ) {
+        return { success: false, error: 'Invalid graph data' };
+      }
+    }
 
     const edgesInit = edges.map(([u, v]) => `{${u}, ${v}}`).join(', ');
 
@@ -79,7 +93,7 @@ int main() {
     } catch (err) {
       clearTimeout(timeout);
       if (err.name === 'AbortError') {
-        return { success: false, error: t('error.timeout') };
+        return { success: false, error: 'Time limit exceeded (15s)' };
       }
       return { success: false, error: err.message };
     }

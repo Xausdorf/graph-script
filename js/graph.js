@@ -1,4 +1,5 @@
 let nextVertexId = 1;
+let nextEdgeId = 1;
 let isDirected = true;
 
 function initGraph(containerId) {
@@ -219,7 +220,7 @@ function addEdge(cy, srcId, tgtId) {
   const edge = cy.add({
     group: 'edges',
     data: {
-      id: `e_${srcId}_${tgtId}`,
+      id: `e_${nextEdgeId++}`,
       source: srcId,
       target: tgtId,
     },
@@ -328,7 +329,7 @@ function renumberVertices(cy) {
       cy.add({
         group: 'edges',
         data: {
-          id: `e_${ed.source}_${ed.target}`,
+          id: `e_${nextEdgeId++}`,
           source: ed.source,
           target: ed.target,
         },

@@ -16,29 +16,61 @@ function setupVertical(cy, editorView) {
 
   let dragging = false;
 
-  handle.addEventListener('mousedown', (e) => {
-    e.preventDefault();
+  function startDrag() {
     dragging = true;
     handle.classList.add('dragging');
     document.body.classList.add('resizing');
-  });
+  }
 
-  document.addEventListener('mousemove', (e) => {
+  function doDrag(clientX) {
     if (!dragging) return;
     const rect = container.getBoundingClientRect();
-    const pct = ((e.clientX - rect.left) / rect.width) * 100;
+    const pct = ((clientX - rect.left) / rect.width) * 100;
     const clamped = Math.max(20, Math.min(80, pct));
     graphPanel.style.flex = `0 0 ${clamped}%`;
     cy.resize();
     editorView.refresh();
-  });
+  }
 
-  document.addEventListener('mouseup', () => {
+  function endDrag() {
     if (!dragging) return;
     dragging = false;
     handle.classList.remove('dragging');
     document.body.classList.remove('resizing');
+  }
+
+  /* Mouse events */
+  handle.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    startDrag();
   });
+
+  document.addEventListener('mousemove', (e) => {
+    doDrag(e.clientX);
+  });
+
+  document.addEventListener('mouseup', endDrag);
+
+  /* Touch events */
+  handle.addEventListener(
+    'touchstart',
+    (e) => {
+      e.preventDefault();
+      startDrag();
+    },
+    { passive: false },
+  );
+
+  document.addEventListener(
+    'touchmove',
+    (e) => {
+      if (!dragging) return;
+      doDrag(e.touches[0].clientX);
+    },
+    { passive: true },
+  );
+
+  document.addEventListener('touchend', endDrag);
 }
 
 /* ── Horizontal (editor ↔ output) ── */
@@ -50,17 +82,16 @@ function setupHorizontal(editorView) {
 
   let dragging = false;
 
-  handle.addEventListener('mousedown', (e) => {
-    e.preventDefault();
+  function startDrag() {
     dragging = true;
     handle.classList.add('dragging');
     document.body.classList.add('resizing-h');
-  });
+  }
 
-  document.addEventListener('mousemove', (e) => {
+  function doDrag(clientY) {
     if (!dragging) return;
     const rect = rightPanel.getBoundingClientRect();
-    const y = e.clientY - rect.top;
+    const y = clientY - rect.top;
     const total = rect.height;
 
     /* clamp so neither section disappears */
@@ -73,12 +104,45 @@ function setupHorizontal(editorView) {
     outputSection.style.height = outputH + 'px';
 
     editorView.refresh();
-  });
+  }
 
-  document.addEventListener('mouseup', () => {
+  function endDrag() {
     if (!dragging) return;
     dragging = false;
     handle.classList.remove('dragging');
     document.body.classList.remove('resizing-h');
+  }
+
+  /* Mouse events */
+  handle.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    startDrag();
   });
+
+  document.addEventListener('mousemove', (e) => {
+    doDrag(e.clientY);
+  });
+
+  document.addEventListener('mouseup', endDrag);
+
+  /* Touch events */
+  handle.addEventListener(
+    'touchstart',
+    (e) => {
+      e.preventDefault();
+      startDrag();
+    },
+    { passive: false },
+  );
+
+  document.addEventListener(
+    'touchmove',
+    (e) => {
+      if (!dragging) return;
+      doDrag(e.touches[0].clientY);
+    },
+    { passive: true },
+  );
+
+  document.addEventListener('touchend', endDrag);
 }

@@ -50,20 +50,22 @@
           id="btn-add-vertex"
           class="btn btn--accent"
           data-i18n-tooltip="tooltip.addVertex"
-          data-tooltip="Добавить вершину"
+          data-tooltip=""
+          aria-label="Add vertex"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
             <circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
             <line x1="10" y1="6" x2="10" y2="14" stroke="currentColor" stroke-width="1.5" />
             <line x1="6" y1="10" x2="14" y2="10" stroke="currentColor" stroke-width="1.5" />
           </svg>
-          <span data-i18n="btn.vertex">Вершина</span>
+          <span data-i18n="btn.vertex"></span>
         </button>
         <button
           id="btn-add-edge"
           class="btn btn--accent"
           data-i18n-tooltip="tooltip.addEdge"
-          data-tooltip="Соединить две вершины"
+          data-tooltip=""
+          aria-label="Add edge"
         >
           <svg
             viewBox="0 0 20 20"
@@ -77,14 +79,15 @@
             <circle cx="16" cy="10" r="2.5" />
             <line x1="6.5" y1="10" x2="13.5" y2="10" />
           </svg>
-          <span data-i18n="btn.edge">Ребро</span>
+          <span data-i18n="btn.edge"></span>
         </button>
         <div class="toolbar-separator"></div>
         <button
           id="btn-delete"
           class="btn btn--danger"
           data-i18n-tooltip="tooltip.delete"
-          data-tooltip="Удалить элемент"
+          data-tooltip=""
+          aria-label="Delete element"
         >
           <svg
             viewBox="0 0 20 20"
@@ -97,27 +100,28 @@
             <line x1="5" y1="5" x2="15" y2="15" />
             <line x1="15" y1="5" x2="5" y2="15" />
           </svg>
-          <span data-i18n="btn.delete">Удалить</span>
+          <span data-i18n="btn.delete"></span>
         </button>
         <div class="toolbar-separator"></div>
         <button
           id="btn-run"
           class="btn btn--run"
           data-i18n-tooltip="tooltip.run"
-          data-tooltip="Запустить скрипт"
+          data-tooltip=""
+          aria-label="Run script"
         >
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
             <polygon points="5,3 17,10 5,17" />
           </svg>
-          <span data-i18n="btn.run">Запуск</span>
+          <span data-i18n="btn.run"></span>
         </button>
       </div>
       <div class="toolbar-end">
-        <div class="toolbar-status">
+        <div class="toolbar-status" role="status">
           <span class="status-dot"></span>
-          <span class="status-text" id="mode-label" data-i18n="mode.default">Перемещение</span>
+          <span class="status-text" id="mode-label" data-i18n="mode.default"></span>
         </div>
-        <button id="btn-lang" class="btn btn--lang">
+        <button id="btn-lang" class="btn btn--lang" aria-label="Toggle language">
           <span id="lang-label">EN</span>
         </button>
       </div>
@@ -148,7 +152,7 @@
         <div class="graph-grid" id="graph-grid"></div>
         <div id="cy"></div>
         <div class="graph-controls">
-          <button class="graph-control-btn" id="btn-grid">
+          <button class="graph-control-btn" id="btn-grid" aria-label="Toggle grid">
             <svg
               viewBox="0 0 20 20"
               fill="none"
@@ -162,9 +166,9 @@
               <line x1="2" y1="7" x2="18" y2="7" />
               <line x1="2" y1="13" x2="18" y2="13" />
             </svg>
-            <span data-i18n="btn.grid">Сетка</span>
+            <span data-i18n="btn.grid"></span>
           </button>
-          <button class="graph-control-btn" id="btn-directed">
+          <button class="graph-control-btn" id="btn-directed" aria-label="Toggle directed">
             <svg
               viewBox="0 0 20 20"
               fill="none"
@@ -176,7 +180,7 @@
               <line x1="3" y1="10" x2="14" y2="10" />
               <polyline points="11,6 15,10 11,14" />
             </svg>
-            <span data-i18n="btn.directed">Ориентированный</span>
+            <span data-i18n="btn.directed"></span>
           </button>
         </div>
         <div class="graph-overlay-corner graph-overlay-corner--tl"></div>
@@ -217,12 +221,38 @@
               <polyline points="4,6 8,10 4,14" />
               <line x1="10" y1="14" x2="16" y2="14" />
             </svg>
-            <span data-i18n="label.output">Вывод</span>
+            <span data-i18n="label.output"></span>
           </div>
-          <div id="output">Вывод будет здесь...</div>
+          <div id="output" aria-live="polite"></div>
         </div>
       </div>
     </div>
+    <noscript>
+      <div
+        style="
+          color: #e2e8f0;
+          font-family: sans-serif;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          text-align: center;
+        "
+      >
+        <div>
+          <h2>JavaScript is required</h2>
+          <p>Please enable JavaScript to use Graph Script Editor.</p>
+        </div>
+      </div>
+    </noscript>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+        if (typeof cytoscape === 'undefined' || typeof CodeMirror === 'undefined') {
+          document.body.innerHTML =
+            '<div style="color:#e2e8f0;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center"><div><h2>Failed to load dependencies</h2><p>Please check your internet connection and reload the page.</p></div></div>';
+        }
+      });
+    </script>
     <script type="module" src="js/app.js"></script>
   </body>
 </html>
