@@ -2,6 +2,8 @@
 
 Рисуешь граф — пишешь алгоритм — смотришь результат. Всё в браузере, без установки.
 
+**[Открыть онлайн](https://xausdorf.github.io/graph-script/)**
+
 <p align="center">
   <img src="assets/web-page-preview.png" alt="Graph Script Editor — preview" width="800">
 </p>
@@ -70,4 +72,4 @@ npm test                 # e2e тесты (Playwright)
 
 ## Лицензия
 
-[ISC](LICENSE)
+[Unlicense](LICENSE)
