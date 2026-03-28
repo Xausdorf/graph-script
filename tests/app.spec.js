@@ -93,9 +93,7 @@ test.describe('Graph Script Editor', () => {
     const modeLabel = page.locator('#mode-label');
     const modeLabelText = await modeLabel.textContent();
     // In Russian: "Добавление ребра", in English: "Adding edge"
-    expect(
-      modeLabelText === 'Добавление ребра' || modeLabelText === 'Adding edge',
-    ).toBe(true);
+    expect(modeLabelText === 'Добавление ребра' || modeLabelText === 'Adding edge').toBe(true);
 
     // Click on the first node
     const pos1 = await getNodeScreenPosition(page, 0);
@@ -180,9 +178,7 @@ test.describe('Graph Script Editor', () => {
     await page.mouse.click(pos.x, pos.y);
 
     // Wait for removal animation + renumbering to complete
-    await expect
-      .poll(() => getCyNodeCount(page), { timeout: 5000 })
-      .toBe(2);
+    await expect.poll(() => getCyNodeCount(page), { timeout: 5000 }).toBe(2);
 
     // Assert remaining nodes are renumbered to 1 and 2
     const ids = await getCyNodeIds(page);
